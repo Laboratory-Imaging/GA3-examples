@@ -1,2 +1,8 @@
-# GA3-Examples
-Examples of General Analysis (GA3) recipes. GA3 is an engine in NIS-Elements for complex image analysis.
+# GA3 Examples
+
+Examples are organized into folders based on NIS version the were made for.
+
+### Examples for NIS-Elements version 6.10
+
+- [The NEMO Dots Assembly: Single-Particle Tracking and Analysis](NIS_v6.10/)
+
