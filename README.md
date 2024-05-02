@@ -1,6 +1,6 @@
 # GA3 Examples
 
-Examples are organized into folders based on NIS version the were made for.
+Examples are organized into folders based on NIS version they were made for.
 
 ### Examples for NIS-Elements version 6.10 (scheduled for summer 2024)
 
