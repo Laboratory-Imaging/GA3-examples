@@ -10,8 +10,8 @@ It will recreate the analysis described in the article [The NEMO Dots Assembly: 
 Original data referenced in the paper can be obtained [here](https://zenodo.org/record/1341987#.YFmlw69Kg-U). There are multiple datasets, in our example we will use the Cell_02.tif file in the NEMO-IL1 folder. When using the original data, the time interval and calibration must be set to get correct results. Time interval is 0.5s and the pixel calibration is 0.16 µm/px.
 
 We converted the original dataset into ND2 and edited all necessary metadata. The analysis recipe and source ND2 file can be downloaded from this repository:
-- [GA3_NEMO_Dots_Assembly_example.ga3](GA3_NEMO_Dots_Assembly_example.ga3)
-- [GA3_NEMO_Dots_Assembly_example.nd2](GA3_NEMO_Dots_Assembly_example.nd2)
+- [GA3_NEMO_Dots_Assembly_example.ga3](GA3_NEMO_Dots_Assembly_example.ga3)[^1]
+- [GA3_NEMO_Dots_Assembly_example.nd2](GA3_NEMO_Dots_Assembly_example.nd2)[^2]
 
 #### The source image data:
 
@@ -130,4 +130,6 @@ In this example we
 
 ![final results](images/38_final.png "Image 20 - final results")
 
+[^1]: Laboratory Imaging
+[^2]: Tinevez, J.-Y., Laplantine, E., & Tarantino, N. (2018). Tracking-NEMO-movies_subset. In Journal of Cell Biology (Vol. 204, pp. 2231–245). Zenodo. https://doi.org/10.5281/zenodo.1341987
 
