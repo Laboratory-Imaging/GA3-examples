@@ -1,6 +1,10 @@
 # GA3 Examples
 
-Examples are organized into folders based on NIS version they were made for.
+> [!NOTE]
+> This repository is under development. 
+> We will be adding more examples soon.
+
+Examples are organized into folders based on the version they were made for.
 
 ### Examples for NIS-Elements version 6.10 (scheduled for summer 2024)
 
