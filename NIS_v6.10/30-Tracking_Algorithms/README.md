@@ -4,7 +4,7 @@
 >
 > ### Tracking algorithms
 >
-> Tracking in GA3 can be done using those two nodes:
+> Tracking in GA3 can be done using these two nodes:
 >
 > - [**Track Objects**](#track-objects) node tracks binary objects by finding their intersections between consecutive frames. It is intended for large morphing, non rigid objects that move slowly over time. It takes a binary layer as input and outputs a table with objects having TrackId assigned as output. Other object feature columns has to be added to this table.
 >
@@ -14,7 +14,7 @@
 >
 > - **AccumTracks** node can be then used to accumulate tracking data from all time points (⚠️ this is usually done with **AccumRecords** node, but it CAN NOT be used when accumulating data for tracked objects), results are also grouped by TrackID.
 >
-> After you use either one of those nodes for tracking and AccumTracks node, you can display tracks of tracked objects in the image using *Display tracking* button in the result table in Analysis result window:
+> After you use either one of those nodes for tracking and AccumTracks node, you can display tracks of tracked objects in the image using *Display tracking* button in the result table in the Analysis results window:
 >
 > ![image](./images/90_enable_tracking.png "Image 1 - enable tracking button")
 >
