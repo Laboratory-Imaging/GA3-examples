@@ -15,3 +15,8 @@ Examples are organized into folders based on NIS Elements version which they wer
 - [Tracking algorithms](./NIS_v6.10/30-Tracking_Algorithms/)
 - [The NEMO Dots Assembly: Single-Particle Tracking and Analysis](./NIS_v6.10/31-Tracking_NEMO_Dots/)
 - [Tracking cells moving between chambers](./NIS_v6.10/32-Tracking_cells_moving_between_chambers/)
+
+## Examples for NIS-Elements version 6.20
+
+- [Getting started with Python](./NIS_v6.20/50-Python_Getting_Started/)
+- [Running cellpose in Python](./NIS_v6.20/52-Python_cellpose/)
