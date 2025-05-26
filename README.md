@@ -19,4 +19,5 @@ Examples are organized into folders based on NIS Elements version which they wer
 ## Examples for NIS-Elements version 6.20
 
 - [Getting started with Python](./NIS_v6.20/50-Python_Getting_Started/)
-- [Running cellpose in Python](./NIS_v6.20/52-Python_cellpose/)
+- [Running Cellpose in Python](./NIS_v6.20/52-Python_cellpose/)
+- [Running Stardist in Python](./NIS_v6.20/53-Python_stardist/)
