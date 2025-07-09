@@ -1,48 +1,47 @@
 # Overview
 
 The python node is unique in two ways:
-1. it doesn't have default Inputs and Outputs so it cannot be connected right away and
-2. the whole functionality of the node is implemented in a python script.
+1. It doesn't have default Inputs and Outputs so it cannot be connected directly.
+2. The whole functionality of the node is implemented in a python script.
 
 ## Defining inputs and outputs
 
 Before using the node the user must decide what inputs and outputs it will have. It depends on the
 node function:
 
-- **Preprocessing** node will have one Channel Input and one Channel output or
-- **Segmentation** node will typically have one or more Channel Input and one Binary output
+- **Preprocessing** node will have one Channel input and one Channel output or,
+- **Segmentation** node will typically have one or more Channel input and one Binary output.
 
-Inputs and outputs can be added using the buttons in the top toolbar od the node dialog.
+Inputs and outputs can be added using the buttons in the top toolbar or the node dialog.
 
 ![toolbar](images/00_toolbar.png)
 
 ![input and outputs](images/01_input_outputs.png)
 
-After setting a combination of inputs and outputs the node looks lik that:
+After setting a combination of inputs and outputs the node looks like this:
 
 ![input and outout set](images/02_input_outputs_set.png)
 
-Note that whe hovering over the input pins or output rectangles a tooltip appear showing `inp[n]` or `out[n]` corresponding to function arguments.
+By hovering over the input pins or output rectangles a tooltip appears showing `inp[n]` or `out[n]` corresponding to function arguments.
 
 ## Writing the script
 
 ### Simple processing
 
-1. We will use the [GA3_Cell_Size_Analysis_example.nd2](https://laboratory-imaging.github.io/GA3-examples/NIS_v6.10/10-Cell_Size_Analysis/GA3_Cell_Size_Analysis_example.nd2). Download it and open it in NIS Elements.
+1. We will use the [GA3_Cell_Size_Analysis_example.nd2](https://laboratory-imaging.github.io/GA3-examples/NIS_v6.10/10-Cell_Size_Analysis/GA3_Cell_Size_Analysis_example.nd2). Download it and open in NIS-Elements.
 2. Add the python node.
-5. Add Input color and Output Color
+5. Add Input color and Output color.
 4. Connect the node to the Mono channel and the SavePictures to the python output.
 5. Check preview.
 
 ![processing](images/10_preprocessing_node.png)
 
-The output should be black because we didn't do anything nin the `run()` function.
+The output should be black because we didn't do anything in the `run()` function.
 
 #### Copy the original
 
-In the script part edit the run function. Instead of `pass` we want to set the data to the output `out` parameter.
-From the tooltip we figured out it is `out[0]` (first and only output we have). We will be using the input `inp[0]` data as
-a source.
+In the script part, edit the run function. Instead of `pass` we want to set the data to the output `out` parameter.
+From the tooltip we figured out it is `out[0]` (first and only output we have). We will be using the input `inp[0]` data as source.
 
 The `data` attribute is a `numpy` [ndarray](https://numpy.org/doc/stable/reference/arrays.ndarray.html).
 
@@ -53,9 +52,9 @@ def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limn
 
 Now, the preview should show the original.
 
-#### What is the shape and type of the data
+#### Shape and type of the data
 
-Lets see some basic properties of the ndarray:
+Basic properties of the ndarray:
 
 ```py
 def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limnode.RunContext) -> None:
@@ -66,10 +65,10 @@ def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limn
 
 ```
 
-The `print()` output goes to the NIS Elements log file. To see it go the NIS Elements Menu `Help -> Open Log File...`.
+The `print()` output is saved into the NIS Elements log file. To see it go the NIS-Elements Menu `Help -> Open Log File...`.
 
 > [!WARNING]
-> Make sure the logging has is enabled!
+> Make sure logging is enabled!
 >
 > `Help -> Enable Logging` must be checked.
 > If not check it and restart NIS-Elements.
@@ -80,22 +79,22 @@ The `print()` output goes to the NIS Elements log file. To see it go the NIS Ele
 ... PYTHON OUT: dtype = uint16
 ```
 
-##### shape
+##### Shape
 
 > [!IMPORTANT]
-> In python node the `data` ndarray for both Color Channels and Binaries have `ndim=4` (rank of 4) and following shape:
+> In the python node the `data` ndarray for both Color Channels and Binaries have `ndim=4` (rank of 4) and following shape:
 >
 > 0. z - **depth** of 3D Z stack volumes (1 - for 2D)
 > 1. y - **height** of 2D image
 > 2. x - **width** of 2D image
 > 3. c - **component** (a.k.a channel) of image (1 for mono and binaries, 3 for RGB, n for all)
 
-The output `(1, 2800, 2800, 1)` shows that the ndarray
+The output `(1, 2800, 2800, 1)` shows that the ndarray:
 - is 2D (depth=1),
 - the image is 2800 x 2800 pixel and
 - it has one component.
 
-##### type
+##### Type
 
 Color Channel data are either:
 - unsigned integer
@@ -118,7 +117,7 @@ Binary data can be:
 
 Lets do some arithmetics with the pixels.
 
-1. Lets multiply the data:
+1. Multiply the data:
 
 ```py
 def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limnode.RunContext) -> None:
@@ -127,20 +126,20 @@ def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limn
 
 The image got brighter.
 
-2. Lets subtract an offset form the data:
+2. Subtract an offset from the data:
 
 ```py
 def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limnode.RunContext) -> None:
     out[0].data[:] = inp[0].data[:] - 100
 ```
 
-This doesn't seem right. This is the manifestation of the **wrapping around zero issue** where the values instead
+This is not correct. This is the manifestation of the **wrapping around zero issue** where the values instead
 of going negative become high.
 
 > [!IMPORTANT]
 > The data type (`dtype`) in which we perform computations must be large enough to hold our temporary results.
 > We suggest to always convert the data into float using `astype(float)`.
-> Negative values must still be dealt with!
+> Negative values must still be dealth with!
 > Typically using [numpy.maximum()](https://numpy.org/doc/stable/reference/generated/numpy.maximum.html) or [numpy.clip()](https://numpy.org/doc/stable/reference/generated/numpy.clip.html)
 
 Before we can use numpy we must import it
@@ -153,7 +152,7 @@ def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limn
     out[0].data[:] = numpy.maximum(inp[0].data[:].astype(float) - 100, 0)
 ```
 
-We can apply simple auto-contrast to the data using quantile. Note that it makes sense only with integer data (`out[0].bitsPerComponent < 32`).
+We can apply simple auto-contrast to the data using quantile. Note that it only makes sense with integer data (`out[0].bitsPerComponent < 32`).
 
 ```py
 def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limnode.RunContext) -> None:
@@ -169,32 +168,32 @@ def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limn
 
 #### Playing with coordinates - indexing and slicing
 
-We saw above that our example image input `inp[0]` is a 2D mono image 2800 x 2800 pixels.
+Our example image (above) input `inp[0]` is a 2D mono image 2800 x 2800 pixels.
 
 We will be copying only portions of the source image to see how slicing work:
 
-1. Lets first copy a rectangle in the top-left corner (1400x700px). Remember: Y goes before X.
+1. First copy a rectangle in the top-left corner (1400x700px). Remember: Y goes before X.
 
 ```py
 def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limnode.RunContext) -> None:
     out[0].data[:, 0:700, 0:1400, :] = inp[0].data[:, 0:700, 0:1400, :]
 ```
 
-2. We can move it down by 700px.
+2. Move it down by 700px.
 
 ```py
 def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limnode.RunContext) -> None:
     out[0].data[:, 700:1400, 0:1400, :] = inp[0].data[:, 0:700, 0:1400, :]
 ```
 
-3. We can copy whole image every second row.
+3. Copy the whole image every second row.
 
 ```py
 def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limnode.RunContext) -> None:
     out[0].data[:, ::2, :, :] = inp[0].data[:, ::2, :, :]
 ```
 
-4. We can flip the image horizontally
+4. Flip the image horizontally
 
 ```py
 def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limnode.RunContext) -> None:
@@ -204,7 +203,7 @@ def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limn
 > [!IMPORTANT]
 > Slicing notation:
 > - : is for all
-> - i is for **indexing** of single element (z-slice, row of data, column of data, channel), negative number is from the end
+> - i is for **indexing** of a single element (z-slice, row of data, column of data, channel), negative number is from the end
 > - a:b:c is for **slicing** where
 >   - a is index of the start of the slice, negative number is from the end
 >   - b is index of the end (one after) of the slice, negative number is from the end
@@ -213,9 +212,9 @@ def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limn
 
 ### Simple thresholding
 
-This example uses numpy function [where()](https://numpy.org/doc/stable/reference/generated/numpy.where.html#numpy.where) the perform a threshold.
+This example uses numpy function [where()](https://numpy.org/doc/stable/reference/generated/numpy.where.html#numpy.where) to perform a threshold.
 
-1. We will use the the same image [GA3_Cell_Size_Analysis_example.nd2](https://laboratory-imaging.github.io/GA3-examples/NIS_v6.10/10-Cell_Size_Analysis/GA3_Cell_Size_Analysis_example.nd2). Download it and open it in NIS Elements.
+1. We will use the same image [GA3_Cell_Size_Analysis_example.nd2](https://laboratory-imaging.github.io/GA3-examples/NIS_v6.10/10-Cell_Size_Analysis/GA3_Cell_Size_Analysis_example.nd2). Download it and open in NIS-Elements.
 2. Add the python node.
 5. Add Input color and **Output Binary**
 4. Connect the node to the Mono channel and the SaveBinaries to the python output.
@@ -234,14 +233,14 @@ def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limn
     out[0].data[:] = bin.astype(numpy.uint8)
 ```
 
-Lets change the color and the name of the binary layer. Lets call it "cell" and make it yellow.
+Change the color and the name of the binary layer. Call it "cell" and make it yellow.
 
 #### The output() function
 
 The `output()` function defines all the aspects of the output parameters.
 
-In general we can either
-- **assign** an input from which the output will take all the properties or
+In general we can either:
+- **assign** an input from which the output will take all the properties or,
 - **make new** output and define it.
 
 Here is a complete list of functions per each output type:

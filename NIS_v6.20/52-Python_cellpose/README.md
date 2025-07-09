@@ -4,7 +4,7 @@ This example will show how to:
 - [install cellpose](#installing-cellpose)
 - [setup the node](#build-the-ga3-graph) for cellpose
 - [enable GPU](#enabling-gpu-acceleration-in-cellpose) with cellpose
-- [cerate](#creating-conda-environment) and [use](#using-conda-environment-in-the-python-node) with conda environment
+- [create](#creating-conda-environment) and [use](#using-conda-environment-in-the-python-node) with conda environment
 
 ## Installing cellpose
 
@@ -18,27 +18,28 @@ c:
 cd c:\Program Files\NIS Elements\
 ```
 
-or Find the folder in the Windows Explorer and type `cmd` into the Folder bar
+or find the folder in the Windows Explorer and type `cmd` into the folder bar
 
 ![Program Files](images/01_running_cmd.png)
 
-The terminal should look like this (pointing into the NIS Elements installation folder):
+The terminal should look like this (pointing into the NIS-Elements installation folder):
 
 ![CMD terminal](images/02_cmd_terminal.png)
 
-2. To install the cellpose (with GUI):
+2. To install cellpose (with GUI):
 
 ```cmd
 pip.bat install cellpose[gui]
 ```
 
-3. To check it is installed run: `python.bat` and type:
+3. To check if it's installed, run: `python.bat` and type:
 
 ```py
-from cellpose import models
+from cellpose import models]
+model = models.CellposeModel(gpu=True)
 ```
 
-If there are no errors models were imported.
+If there are no errors, models were imported.
 
 4. Download the [datasets](https://www.cellpose.org/dataset) from cellpose to get started
 
@@ -56,7 +57,7 @@ If there are no errors models were imported.
 
 ![The python node inside the GA3 editor](images/03_python_node.png)
 
-#### 4. Paste the code below into the editor completely replacing the default content.
+#### 4. Paste the code below into the editor (completely replace the default content).
 
 ```python
 import limnode
@@ -83,11 +84,11 @@ def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limn
     global model
     if model is None:
         # NOTE: gpu=True
-        model = models.Cellpose(gpu=True, model_type='cyto3')
+        model = models.CellposeModel(gpu=True)
         _log(f"Using GPU: {model.gpu}\n")
 
     # NOTE: [z, y, x, comp]
-    masks, flows, styles, diams = model.eval(inp[0].data[0, :, :, 0]) # get two-dim [y, x]
+    masks, *_ = model.eval(inp[0].data[0, :, :, 0]) # get two-dim [y, x]
 
     # NOTE: use limnode.separateLabeledImage() to convert labeled image into NIS binary
     out[0].data[0, :, :, 0] = limnode.separateLabeledImage(masks.astype(numpy.uint8))
@@ -107,11 +108,11 @@ The result should look like this.
 
 #### Logging
 
-Python output normally goes into NIS-Elements log file which is available from the Menu *Help* -> *Open log file...* Note that
+Python output normally goes into the NIS-Elements log file which is available from the Menu *Help* -> *Open log file...* Note that
 *Enable logging* must be enabled (setting it ON requires restarting NIS).
 
-However, whe run as a child process the logging doesn't make it into logs.
-Therefore log into an arbitrary file like so:
+However, when run as a child process, the logging doesn't make it into these logs.
+Therefore log into an arbitrary file:
 
 ```py
 def _log(message):
@@ -139,18 +140,18 @@ def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limn
 
 #### enable GPU
 
-Cellpose is **not** using GPU ny default. It must be explicitly turned ON in the model constructor like so:
+Cellpose is **not** using GPU by default. It must be explicitly turned ON in the model constructor:
 
 ```py
-model = models.Cellpose(gpu=True, model_type='cyto3')
+model = models.CellposeModel(gpu=True)
 _log(f"Using GPU: {model.gpu}\n")
 ```
 
-Check the log file and if the output is False go to [Enabling GPU acceleration in cellpose](#enabling-gpu-acceleration-in-cellpose) section.
+Check the log file, if the output is False go to [Enabling GPU acceleration in cellpose](#enabling-gpu-acceleration-in-cellpose) section.
 
 #### input/output data shape
 
-The `data` shape of inp[], and out[] has always rank=4 for both Binary and color.
+The `data` shape of inp[], and out[] has always rank=4 for both binary and color.
 
 The order is as follows:
 
@@ -159,10 +160,10 @@ The order is as follows:
 2. x - width of 2D image
 3. c - component (a.k.a channel) of image (1 for mono and binaries, 3 for RGB, n for all)
 
-In order to get a 2D image single channel image use following slicing:
+In order to get a 2D, single channel image use following slicing:
 
 ```py
-a = inp[0].data[0, :, :, 0]
+inp[0].data[0, :, :, 0]
 ```
 
 #### Labeled image
@@ -171,7 +172,7 @@ NIS-Elements use binaries to describe objects. Individual objects must not touch
 to form a separate object. However, this is not the case for many other systems where the object ID is in the pixel value and thus
 objects can touch - Labeled image.
 
-To convert from the Labels to binary, there is
+To convert from labels to binary, there is:
 - a node in Segmentation-> Special detections -> Labels to binary and
 - a `separateLabeledImage()` function in limnode
 
@@ -202,9 +203,9 @@ If the `is_available()` function returns False it means that the torch cannot fi
 
 ### Updating NVIDIA drivers
 
-It is always good to update the drivers to the newest ones. The support all the previous version.
+It is always good to update the drivers to the newest ones. These support all the previous versions.
 
-Go to the NVIDIA drivers download [page](https://www.nvidia.com/en-us/geforce/drivers/) download ind install it.
+Go to the NVIDIA drivers download [page](https://www.nvidia.com/en-us/geforce/drivers/), download and install it.
 
 After exiting python interpreter, type `nvidia-smi.exe` into the cmd. It should output something like this:
 
@@ -249,7 +250,7 @@ Now it should output True.
 
 With miniconda installed on the system we run the **Anaconda Prompt** from the Start menu and
 
-1. make a new environment with python 3.12 (minimum for NIS-Elements) called *cellpose*,
+1. make a new environment with python 3.12 (minimum for NIS-Elements) called *cellpose*
 2. activate the environment
 3. install torch (see [Installing correct torch](#installing-correct-torch)) using pip (NOT pip.bat)
 4. optionally run python and check that [torch can see the GPU](#check-if-torch-can-see-gpu)
@@ -262,12 +263,12 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 pip install cellpose matplotlib
 ```
 
-After it installs the location of the environment can be found by typing:
+After it installs, the location of the environment can be found by typing:
 ```cmd
 conda env list
 ```
 
-It should output similar list.
+It should output a similar list.
 
 ```
 # conda environments:
@@ -287,11 +288,11 @@ In order to use the just created environment:
 ![use conda environment](images/06_using_conda_env.png)
 
 > [!WARNING]
-> These two files from C:\Program Files\NIS-Elements\Python\Lib\site-packages
+> These three files from C:\Program Files\NIS-Elements\Python\Lib\site-packages
 >
 > - limnode.py,
 > - limreport.py and
-> - limtabletabledata.py
+> - limtabledata.py
 >
 > must be copied into Conda environment site-packages folder.
 >

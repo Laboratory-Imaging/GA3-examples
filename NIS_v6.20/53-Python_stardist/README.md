@@ -1,10 +1,13 @@
 
-# Stardist on NIS
+# Stardist in NIS
+
+This workflow was kindly provided by *Nikky Corthout* and *Benjamin Pavie* from
+[VIB Bioimaging core Leuven, VIB Technologies, VIB Center for Brain and Disease research, KU Leuven Department of Neurosciences](https://bioimagingcore-leuven.sites.vib.be/en).
 
 ## Conda installation
 
 > [!WARNING]
-> Since NIS require python >= 3.12 and tensorflow<2.11 is require for GPU on native windows and is not compatible with python 3.12 we cannot supoport stardist GPU
+> Since NIS requires python >= 3.12, and tensorflow <2.11 is required for GPU on native windows (not compatible with python 3.12), we cannot support stardist via GPU.
 
 ### Install the conda environement
 You need the [environment.yml](https://github.com/Laboratory-Imaging/GA3-examples-private/blob/main/NIS_v6.20/53-Python_stardist/environment.yml)
@@ -13,7 +16,7 @@ conda env create -f environment.yml
 conda activate stardist_cpu_only_3_12
 ```
 
-## Download the pre-train model
+## Download the pre-trained model
 Model is available here : https://github.com/stardist/stardist/tree/main/models/paper
 
 Download it and save it locally :
@@ -35,22 +38,22 @@ stardist_model_path = 'C:\\Users\\u0094799\\.keras\\models\\StarDist2D\\2D_versa
 
 - Start NIS, e.g. `NIS-Elements AR 6.20.00 64-bit`
 
-- Start the Analyze Explorer `Image > Analyze Explorer
+- Start the Analysis Explorer `Image > Analyze Explorer`
 
 ### Open an image
 Drag and drop the image `sample.tif`
 
 ### Create a new recipe
-- Create a new Recipe > General Analysis 3
+- Create a new `Recipe > General Analysis 3`
 
 ### Adding the Nodes
 
-- `Source & References > Channels` *if the channel node is no present already*
+- `Source & References > Channels` *if the channel node is not present already*
 
 
 - `ND Processing  Conversion > Python scripting > Python`
 
-- `Binary processing > Colors & Numbers >Color by Id`
+- `Binary processing > Colors & Numbers > Color by Id`
 
 ### Edit the python script
 Click on the `...` on the python3 node
@@ -89,7 +92,7 @@ if __name__ == '__main__':
 ```
 
 ## Select the python executable
-Select the pythonw.exe file within the environment. Otherwise a python window will pop out during the process.
+Select the pythonw.exe file within the environment. Otherwise a python window will pop up during the process.
 
 ![image](images/02_Python_node_dialog.png)
 
