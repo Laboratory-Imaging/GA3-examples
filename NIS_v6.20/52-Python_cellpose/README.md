@@ -35,7 +35,7 @@ pip.bat install cellpose[gui]
 3. To check if it's installed, run: `python.bat` and type:
 
 ```py
-from cellpose import models]
+from cellpose import models
 model = models.CellposeModel(gpu=True)
 ```
 
@@ -301,3 +301,4 @@ In order to use the just created environment:
 > - **ModuleNotFoundError**: No module named **limnode**
 
 ![limfiles in the env](images/07_conda_limfiles.png)
+
