@@ -244,7 +244,14 @@ pip.bat install torch torchvision torchaudio --index-url https://download.pytorc
 
 Check again [if the torch can see the GPU](#check-if-torch-can-see-gpu).
 
-Now it should output True.
+Now it should output True. 
+
+If still not working, try first uninstalling torch to remove the CPU version
+```
+pip uninstall torch -y
+```
+and then install the CUDA-compatible version as shown above.
+
 
 ## Creating Conda environment
 
@@ -301,3 +308,4 @@ In order to use the just created environment:
 > - **ModuleNotFoundError**: No module named **limnode**
 
 ![limfiles in the env](images/07_conda_limfiles.png)
+
