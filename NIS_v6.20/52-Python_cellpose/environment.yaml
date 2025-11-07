@@ -1,0 +1,10 @@
+name: NisCellpose4
+channels:
+    - conda-forge
+dependencies:
+    - python=3.12.4
+    - pytorch
+    - cellpose
+    - pip
+    - pip:
+        - matplotlib

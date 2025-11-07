@@ -1,48 +1,124 @@
 # Running Cellpose from within GA3
 
-This example will show how to:
-- [install cellpose](#installing-cellpose)
+> [!NOTE]
+> This example has been rewritten based on comments we received and recently adopted suggestion to install
+> new packages into separate conda/mamba environments.
+
+> [!WARNING]
+> Installing packages inside NIS-Elements built-in python using the `pip.bat` or `python.bat -m pip` may
+> break NIS-Elements because of mismatching versions.
+
+> [!IMPORTANT]
+> These **three files** from `C:\Program Files\NIS-Elements\Python\Lib\site-packages`
+>
+> - limnode.py,
+> - limreport.py and
+> - limtabledata.py
+>
+> **must be copied** into every Conda environment `Lib\site-packages` folder.
+>
+> Otherwise there will be **ModuleNotFoundError**: No module named **limnode**
+>
+> The `matplotlib` **must be installed** in every environment.
+
+This example shows how to:
+
+- [install cellpose](#installing-cellpose-v4-sam) using micromamba,
+- [check the GPU](#check-the-gpu) and
 - [setup the node](#build-the-ga3-graph) for cellpose
-- [enable GPU](#enabling-gpu-acceleration-in-cellpose) with cellpose
-- [create](#creating-conda-environment) and [use](#using-conda-environment-in-the-python-node) with conda environment
 
-## Installing cellpose
+## Installing Cellpose v4 SAM
 
-NIS-Elements has a python environment that is separate from the system one. These steps will ensure that packages are installed into that
-private environment:
+> [!TIP]
+> In case you cannot use conda due to it's license use [micromamba](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html)
+> install it from [here](https://github.com/mamba-org/micromamba-releases).
+>
+> You may say No (not needed for this example) to: `Do you want to initialize micromamba for the shell activate command?`
 
-1. Open `cmd` terminal and type:
+1. Create a conda/mamba environment using `environment.yaml` (in this folder)
+
+    ```yaml
+    name: Cellpose4
+    channels:
+        - conda-forge
+    dependencies:
+        - python=3.12.4
+        - pytorch           # isntall GPU support rigth away
+        - cellpose          # the up-to-date cellpose
+        - pip               # we need pip for the matplotlib
+        - pip:
+            - matplotlib    # for NIS-Elements to communicate properly
+    ```
+
+2. Install it
+
+    With micromamba in one line:
+
+    ```cmd
+    micromamba create --prefix "D:\testing_cellpose_4" -f "environment.yaml" -y
+    ```
+
+    replace `D:\testing_cellpose_4` with a folder of your choice.
+
+3. Copy the following three files:
+
+    - limnode.py,
+    - limreport.py and
+    - limtabledata.py
+
+    from `C:\Program Files\NIS-Elements\Python\Lib\site-packages` to `D:\testing_cellpose_4\Lib\site-packages`.
+
+The folder should contain the `pythonw.exe` that will be use as out of process interpreter.
+
+![Environment folder](images/01_environment.png)
+
+## Check the GPU
+
+We installed the `pytorch` together with the cellpose. Lets check if it can find the GPU:
 
 ```cmd
-c:
-cd c:\Program Files\NIS Elements\
+cd D:\testing_cellpose_4
 ```
 
-or find the folder in the Windows Explorer and type `cmd` into the folder bar
-
-![Program Files](images/01_running_cmd.png)
-
-The terminal should look like this (pointing into the NIS-Elements installation folder):
-
-![CMD terminal](images/02_cmd_terminal.png)
-
-2. To install cellpose (with GUI):
+Run the python interpreter:
 
 ```cmd
-pip.bat install cellpose[gui]
+python
 ```
 
-3. To check if it's installed, run: `python.bat` and type:
+and try following commands:
 
-```py
-from cellpose import models]
-model = models.CellposeModel(gpu=True)
+```python
+import torch
+torch.cuda.is_available() # should return True
+torch.cuda.device_count() # should return at least one
+exit()
 ```
 
-If there are no errors, models were imported.
+## Troubleshooting CUDA
 
-4. Download the [datasets](https://www.cellpose.org/dataset) from cellpose to get started
+If the previous check was not successful update to the latest [NVIDIA drivers](https://www.nvidia.com/en-us/geforce/drivers/).
 
+Download and install it.
+
+Check the version using `nvidia-smi.exe`. It should output something like this:
+
+```
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 572.83                 Driver Version: 572.83         CUDA Version: 12.8     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                  Driver-Model | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX A4000             WDDM  |   00000000:47:00.0  On |                  Off |
+| 41%   54C    P2             38W /  140W |    2778MiB /  16376MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
+...
+
+```
 
 ## Build the GA3 graph
 
@@ -51,9 +127,11 @@ If there are no errors, models were imported.
 #### 2. Open the GA3 editor and add the Python node. It is located in the `ND Processing & Conversion` at the bottom.
 
 #### 3. Setup the node:
-    - add color input,
-    - add binary output and
-    - check the "Ron out of process" switch
+
+- add color input,
+- add binary output,
+- check the "Run out of process" switch and
+- select the interpret just installed.
 
 ![The python node inside the GA3 editor](images/03_python_node.png)
 
@@ -66,7 +144,7 @@ model = None
 
 # NOTE: log from child process
 def _log(message):
-    with open("d:\\python.log", "a") as f:
+    with open("D:\\testing_cellpose_4\\python.log", "a") as f:
         f.write(f"{message}\n")
 
 def output(inp: tuple[limnode.AnyInDef], out: tuple[limnode.AnyOutDef]) -> None:
@@ -116,7 +194,7 @@ Therefore log into an arbitrary file:
 
 ```py
 def _log(message):
-    with open("d:\\python.log", "a") as f:
+    with open("D:\\testing_cellpose_4\\python.log", "a") as f:
         f.write(f"{message}\n")
 ```
 
@@ -147,7 +225,7 @@ model = models.CellposeModel(gpu=True)
 _log(f"Using GPU: {model.gpu}\n")
 ```
 
-Check the log file, if the output is False go to [Enabling GPU acceleration in cellpose](#enabling-gpu-acceleration-in-cellpose) section.
+Check the log file, if the output is False go to [Check the GPU](#check-the-gpu) section.
 
 #### input/output data shape
 
@@ -182,122 +260,4 @@ Use the function to fill the binary output:
 out[0].data[0, :, :, 0] = limnode.separateLabeledImage(masks.astype(numpy.uint8))
 ```
 
-## Enabling GPU acceleration in cellpose
 
-Cellpose uses torch so the goal is to make sure the torch can use the gpu.
-
-### Check if torch can see GPU
-
-Run `cmd` terminal and navigate to `C:\Program Files\NIS-Elements` and `python.bat`.
-
-Type the following line by line into the python interpreter:
-
-```py
-import torch
-torch.cuda.is_available()
-torch.cuda.device_count()
-exit()
-```
-
-If the `is_available()` function returns False it means that the torch cannot find the specific CUDA version.
-
-### Updating NVIDIA drivers
-
-It is always good to update the drivers to the newest ones. These support all the previous versions.
-
-Go to the NVIDIA drivers download [page](https://www.nvidia.com/en-us/geforce/drivers/), download and install it.
-
-After exiting python interpreter, type `nvidia-smi.exe` into the cmd. It should output something like this:
-
-```
-+-----------------------------------------------------------------------------------------+
-| NVIDIA-SMI 572.83                 Driver Version: 572.83         CUDA Version: 12.8     |
-|-----------------------------------------+------------------------+----------------------+
-| GPU  Name                  Driver-Model | Bus-Id          Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
-|                                         |                        |               MIG M. |
-|=========================================+========================+======================|
-|   0  NVIDIA RTX A4000             WDDM  |   00000000:47:00.0  On |                  Off |
-| 41%   54C    P2             38W /  140W |    2778MiB /  16376MiB |      0%      Default |
-|                                         |                        |                  N/A |
-+-----------------------------------------+------------------------+----------------------+
-
-...
-
-```
-
-The important part is the first line, especially the `CUDA Version: XX.Y`.
-
-### Installing correct torch
-
-Go to the [torch.org](https://pytorch.org/) page, scroll down to "Install PyTorch":
-
-![install PyTorch](images/05_torch_install.png)
-
-Select Stable, Windows, Pip, Python and any CUDA version lower than the version XX.Y from nvidia-smi.exe command.
-
-Last lane shows a pip command to execute. Make sure to replace the pip3 with the `pip.bat`. In this case:
-
-```cmd
-pip.bat install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-```
-
-Check again [if the torch can see the GPU](#check-if-torch-can-see-gpu).
-
-Now it should output True.
-
-## Creating Conda environment
-
-With miniconda installed on the system we run the **Anaconda Prompt** from the Start menu and
-
-1. make a new environment with python 3.12 (minimum for NIS-Elements) called *cellpose*
-2. activate the environment
-3. install torch (see [Installing correct torch](#installing-correct-torch)) using pip (NOT pip.bat)
-4. optionally run python and check that [torch can see the GPU](#check-if-torch-can-see-gpu)
-5. install cellpose and matplotlib (required by NIS)
-
-```cmd
-conda create -n cellpose python=3.12
-conda activate cellpose
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-pip install cellpose matplotlib
-```
-
-After it installs, the location of the environment can be found by typing:
-```cmd
-conda env list
-```
-
-It should output a similar list.
-
-```
-# conda environments:
-#
-base                   C:\ProgramData\miniconda3
-cellpose             * C:\Users\ondrej.prazsky\.conda\envs\cellpose
-```
-
-## Using Conda environment in the python node
-
-In order to use the just created environment:
-
-1. Check the "Run out of process",
-2. click the ... button and
-3. select "pythonw.exe" in the folder from above.
-
-![use conda environment](images/06_using_conda_env.png)
-
-> [!WARNING]
-> These three files from C:\Program Files\NIS-Elements\Python\Lib\site-packages
->
-> - limnode.py,
-> - limreport.py and
-> - limtabledata.py
->
-> must be copied into Conda environment site-packages folder.
->
-> Otherwise there will be
->
-> - **ModuleNotFoundError**: No module named **limnode**
-
-![limfiles in the env](images/07_conda_limfiles.png)
