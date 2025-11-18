@@ -43,7 +43,7 @@ This example shows how to:
         - conda-forge
     dependencies:
         - python=3.12.4
-        - pytorch           # isntall GPU support rigth away
+        - pytorch           # install GPU support right away
         - cellpose          # the up-to-date cellpose
         - pip               # we need pip for the matplotlib
         - pip:

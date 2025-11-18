@@ -16,8 +16,13 @@ Examples are organized into folders based on NIS Elements version which they wer
 - [The NEMO Dots Assembly: Single-Particle Tracking and Analysis](./NIS_v6.10/31-Tracking_NEMO_Dots/)
 - [Tracking cells moving between chambers](./NIS_v6.10/32-Tracking_cells_moving_between_chambers/)
 
-## Examples for NIS-Elements version 6.20
+## Fixes and examples for NIS-Elements version 6.20
+
+- [Fixing issues with Python](./NIS_v6.20/00-Fixing_Python_Issues/)
+    - Required out-of-process Python version lowered to 3.10
+    - Modified table data will not come back from out-of-process Python
+    - Adding `Library\bin` to PATH silently
 
 - [Getting started with Python](./NIS_v6.20/50-Python_Getting_Started/)
-- [Running Cellpose in Python](./NIS_v6.20/52-Python_cellpose/)
-- [Running Stardist in Python](./NIS_v6.20/53-Python_stardist/) (provided by VIB Bioimaging core Leuven)
+- [Running cellpose in GA3](./NIS_v6.20/52-Python_cellpose/)
+- [Running stardist in GA3](./NIS_v6.20/53-Python_stardist/) (provided by VIB Bioimaging core Leuven)
