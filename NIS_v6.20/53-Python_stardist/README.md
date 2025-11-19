@@ -4,12 +4,18 @@
 This workflow was kindly provided by *Nikky Corthout* and *Benjamin Pavie* from
 [VIB Bioimaging core Leuven, VIB Technologies, VIB Center for Brain and Disease research, KU Leuven Department of Neurosciences](https://bioimagingcore-leuven.sites.vib.be/en).
 
+> [!IMPORTANT]
+> LIM updated this workflow to benefit from improvements on NIS Elements side (see [updated version of this document](README_1.md)).
+>
+> It can now run on GPU.
+
 ## Conda installation
 
 > [!WARNING]
 > Since NIS requires python >= 3.12, and tensorflow <2.11 is required for GPU on native windows (not compatible with python 3.12), we cannot support stardist via GPU.
 
-### Install the conda environement
+### Install the conda environment
+
 You need the [environment.yml](https://github.com/Laboratory-Imaging/GA3-examples-private/blob/main/NIS_v6.20/53-Python_stardist/environment.yml)
 ```bash
 conda env create -f environment.yml

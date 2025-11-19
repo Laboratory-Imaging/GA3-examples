@@ -35,9 +35,11 @@ navigate to `Python\Lib\site-packages` and rename these two files:
 - `limnode.py` -> `limnode.py.backup` and
 - `limtabledata.py` -> `limtabledata.py.backup`
 
-2. Copy these files instead of the original files:
+2. Copy the files from here into the NIS-Elements folder instead of the original files:
 
 - limnode.py and
 - limtabledata.py
+
+![Folder screenshot](images/01-Folder_SitePackages.png "Final site-packages folder")
 
 3. Restart NIS-Elements

@@ -1,0 +1,12 @@
+name: stardist_gpu_3_10
+channels:
+    - conda-forge
+dependencies:
+    - python=3.10
+    - cudatoolkit=11.2
+    - cudnn=8.1.0
+    - pip
+    - pip:
+        - tensorflow<2.11
+        - stardist
+        - numpy==1.26
