@@ -30,6 +30,7 @@ dependencies:
         - tensorflow<2.11
         - stardist
         - numpy==1.26
+        - matplotlib                # required by NIS-Elements
 ```
 
 You need the [environment_1.yml](https://github.com/Laboratory-Imaging/GA3-examples-private/blob/main/NIS_v6.20/53-Python_stardist/environment_1.yml) for
@@ -47,6 +48,16 @@ micromamba create --prefix "D:\testing_stardist" -f "environment_1.yaml" -y
 ```
 
 replace the `D:\testing_stardist` with a folder of your choice.
+
+### Copy the three files
+
+These **three files** from `C:\Program Files\NIS-Elements\Python\Lib\site-packages`
+
+- limnode.py,
+- limreport.py and
+- limtabledata.py
+
+**must be copied** into the environment `Lib\site-packages` folder.
 
 ## With NIS
 
@@ -113,7 +124,8 @@ if __name__ == '__main__':
 The code differs slightly from the original:
 1. Loading libraries is delayed until the run(...) function as it slightly improves the responsiveness of NIS.
 2. Models download is handled automatically. You can still download custom models into the .keras folder.
-3. There is a code to check if GPU is used. Uncomment it and go NIS logs (menu: Help → Open Log File... ) to see the output.
+3. There is a code to check if GPU is used. Uncomment it and go NIS logs (menu: Help → Open Log File... ) to see output like this: <br>
+`[PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]`
 
 > [!NOTE]
 > During the Recipe run the module (and all the libraries) is loaded only once for all frames.

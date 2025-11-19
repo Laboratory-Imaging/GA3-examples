@@ -10,3 +10,4 @@ dependencies:
         - tensorflow<2.11
         - stardist
         - numpy==1.26
+        - matplotlib                # required by NIS-Elements

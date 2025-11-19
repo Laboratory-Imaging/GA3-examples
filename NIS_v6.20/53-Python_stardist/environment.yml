@@ -9,6 +9,7 @@ dependencies:
     - tensorflow
     - stardist
     - numpy==1.26
+    - matplotlib                # required by NIS-Elements
 
 # conda env create -f environment.yml
 # CPU only, as python 3.12 is not supported with tensorflow GPU on windows

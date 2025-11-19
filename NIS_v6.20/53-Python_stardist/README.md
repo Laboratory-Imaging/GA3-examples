@@ -22,6 +22,16 @@ conda env create -f environment.yml
 conda activate stardist_cpu_only_3_12
 ```
 
+### Copy the three files
+
+These **three files** from `C:\Program Files\NIS-Elements\Python\Lib\site-packages`
+
+- limnode.py,
+- limreport.py and
+- limtabledata.py
+
+**must be copied** into the environment `Lib\site-packages` folder.
+
 ## Download the pre-trained model
 Model is available here : https://github.com/stardist/stardist/tree/main/models/paper
 
