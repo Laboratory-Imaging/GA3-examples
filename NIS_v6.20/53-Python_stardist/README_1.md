@@ -111,7 +111,7 @@ def run(inp: tuple[limnode.AnyInData], out: tuple[limnode.AnyOutData], ctx: limn
         model = StarDist2D.from_pretrained('2D_versatile_fluo')
 
     img = inp[0].data[0, :, :, 0]
-    labels,_= model.predict_instances(normalize(img, 1, 99.8, axis=(0, 1)))
+    labels,_= model.predict_instances(normalize(img, 1, 99.8, axis=(0, 1)), prob_thresh=0.5) #change probability threshold to make the model more or less strict
 
     separated = limnode.separateLabeledImage(labels)
     out[0].data[:, :, :, 0] = separated.astype(numpy.int32)
