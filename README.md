@@ -41,13 +41,13 @@ it can be used for both softwares. Changes made in this release render some of p
 
 The examples below are intended for use with datasets acquired with NIS Smart Experiment.
 However, they can be used with minor modification on other datasets where some metadata
-(WellPlate and Assay info, Labeling, Dosing) may be missing. See GA3 for SE guidelines.
+(WellPlate and Assay info, Labeling, Dosing) may be missing. See [GA3 for SE guidelines]().
 
 - coming soon...
 
 ### Other examples
 
-- Meta's SAM 3
+- coming soon...
 
 ## Fixes and examples for NIS-Elements version 6.20 (current)
 
