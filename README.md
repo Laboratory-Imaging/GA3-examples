@@ -4,9 +4,9 @@ Examples are organized into folders based on NIS Elements version which they wer
 
 > [!NOTE]
 >
-> All the older examples should work in the newest version.
+> All the examples for older versions should work in the newest versions.
 
-## Examples for NIS-Elements version 7.01 and NIS-Express version 2.01 (coming soon)
+## NIS-Elements version 7.01 and NIS-Express version 2.01 (coming soon)
 
 There is a new [online documentation for NIS-Express](https://nis-express-help.laboratory-imaging.com).
 As the [GA3](https://nis-express-help.laboratory-imaging.com/docs/guide/ga3/) functionality is exactly the same as in NIS-Elements
@@ -21,7 +21,7 @@ it can be used for both softwares. Changes made in this release render some of p
 - Integration of popular community based modules
     - [Cellpose3](https://nis-express-help.laboratory-imaging.com/ref/nodes/segmentation/#czlimga3nodepycellpose3node),
     [Cellpose4](https://nis-express-help.laboratory-imaging.com/ref/nodes/segmentation/#czlimga3nodepycellpose4node) in 2D and 3D
-    - Stardist
+    - [Stardist](https://nis-express-help.laboratory-imaging.com/ref/nodes/segmentation/#czlimga3nodepystardist)
     - [Instanseg](https://nis-express-help.laboratory-imaging.com/ref/nodes/segmentation/#czlimga3nodepyinstanseg)
     - [EfficientV2 UNet](https://nis-express-help.laboratory-imaging.com/ref/nodes/segmentation/#czlimga3nodepyefficientv2unet)
     - [UMAP](https://nis-express-help.laboratory-imaging.com/ref/nodes/data-manipulation/#czlimga3nodedataumap)
@@ -33,6 +33,21 @@ it can be used for both softwares. Changes made in this release render some of p
 - Use LLMs to get the Python code done, see
     - the [movie showing LLM doing PCA](https://lim-public-af010c85-0d3e-4156-9378-5adc1bbef7b3.s3.eu-central-1.amazonaws.com/NISExpress/StaticAssetsForHelp/ref/nodes/data-manipulation/py-create-column-llm-light.mp4) in the in Python Create column node and
     - the [movie extending the above example by making a scatterplot with confidence ellipse](https://lim-public-af010c85-0d3e-4156-9378-5adc1bbef7b3.s3.eu-central-1.amazonaws.com/NISExpress/StaticAssetsForHelp/ref/nodes/results-graphs/py-matplotlib-llm-light.mp4) in the Python Matplotlib node
+- Use LLMs to cerate [HTML reports](https://nis-express-help.laboratory-imaging.com/ref/nodes/results-graphs/#ai-assisted-template-generation)
+
+<a id="examples-for-nis-smart-experiment"></a>
+
+### Examples for NIS Smart Experiment
+
+The examples below are intended for use with datasets acquired with NIS Smart Experiment.
+However, they can be used with minor modification on other datasets where some metadata
+(WellPlate and Assay info, Labeling, Dosing) may be missing. See GA3 for SE guidelines.
+
+- coming soon...
+
+### Other examples
+
+- Meta's SAM 3
 
 ## Fixes and examples for NIS-Elements version 6.20 (current)
 
