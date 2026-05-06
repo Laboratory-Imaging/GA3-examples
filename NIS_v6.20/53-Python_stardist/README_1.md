@@ -33,7 +33,7 @@ dependencies:
         - matplotlib                # required by NIS-Elements
 ```
 
-You need the [environment_1.yml](https://github.com/Laboratory-Imaging/GA3-examples-private/blob/main/NIS_v6.20/53-Python_stardist/environment_1.yml) for
+You need the [environment_1.yml](./environment_1.yml) for
 Conda:
 
 ```bash

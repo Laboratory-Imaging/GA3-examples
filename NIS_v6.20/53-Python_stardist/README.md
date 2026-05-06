@@ -16,7 +16,7 @@ This workflow was kindly provided by *Nikky Corthout* and *Benjamin Pavie* from
 
 ### Install the conda environment
 
-You need the [environment.yml](https://github.com/Laboratory-Imaging/GA3-examples-private/blob/main/NIS_v6.20/53-Python_stardist/environment.yml)
+You need the [environment.yml](./environment.yml)
 ```bash
 conda env create -f environment.yml
 conda activate stardist_cpu_only_3_12

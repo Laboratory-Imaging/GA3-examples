@@ -37,13 +37,15 @@ it can be used for both softwares. Changes made in this release render some of p
 
 <a id="examples-for-nis-smart-experiment"></a>
 
-### Examples for NIS Smart Experiment
+### Examples for NIS Smart Experiment - Custom Acquisition
 
-The examples below are intended for use with datasets acquired with NIS Smart Experiment.
-However, they can be used with minor modification on other datasets where some metadata
-(WellPlate and Assay info, Labeling, Dosing) may be missing. See [GA3 for SE guidelines]().
+The examples below are intended for use with datasets acquired with NIS Smart Experiment - Custom Acquisition:
 
-- coming soon...
+- [How to import GA3 recipes](./NIS_v7.00/10-Import_GA3/)
+- Recipes similar to Nuclear Translocation
+    - [Nuclear Translocation GA3 Recipe](./NIS_v7.00/40-Nuclear_Translocation/)
+    - [Nuclear Translocation GA3 Recipe - Detailed Guide](./NIS_v7.00/40-Nuclear_Translocation_Detailed_Guide/)
+- more GA3 recipes coming soon...
 
 ### Other examples
 
