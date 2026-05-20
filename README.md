@@ -45,6 +45,9 @@ The examples below are intended for use with datasets acquired with NIS Smart Ex
 - Recipes similar to Nuclear Translocation
     - [Nuclear Translocation GA3 Recipe](./NIS_v7.00/40-Nuclear_Translocation/)
     - [Nuclear Translocation GA3 Recipe - Detailed Guide](./NIS_v7.00/40-Nuclear_Translocation_Detailed_Guide/)
+- Population Fraction recipes (live/dead, apoptosis, proliferation assays,...)
+    - [Population Fraction GA3 Recipe](./NIS_v7.00/20-Population_fraction/)
+    - [Population Fraction GA3 Recipe - Detailed Guide](./NIS_v7.00/20-Population_fraction_Detailed_Guide/)
 - more GA3 recipes coming soon...
 
 ### Other examples
