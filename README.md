@@ -6,7 +6,7 @@ Examples are organized into folders based on NIS Elements version which they wer
 >
 > All the examples for older versions should work in the newest versions.
 
-## NIS-Elements version 7.01 and NIS-Express version 2.01 (coming soon)
+## NIS-Elements version 7.01 and NIS-Express version 2.01 (current)
 
 There is a new [online documentation for NIS-Express](https://nis-express-help.laboratory-imaging.com).
 As the [GA3](https://nis-express-help.laboratory-imaging.com/docs/guide/ga3/) functionality is exactly the same as in NIS-Elements
@@ -34,6 +34,7 @@ it can be used for both softwares. Changes made in this release render some of p
     - the [movie showing LLM doing PCA](https://lim-public-af010c85-0d3e-4156-9378-5adc1bbef7b3.s3.eu-central-1.amazonaws.com/NISExpress/StaticAssetsForHelp/ref/nodes/data-manipulation/py-create-column-llm-light.mp4) in the in Python Create column node and
     - the [movie extending the above example by making a scatterplot with confidence ellipse](https://lim-public-af010c85-0d3e-4156-9378-5adc1bbef7b3.s3.eu-central-1.amazonaws.com/NISExpress/StaticAssetsForHelp/ref/nodes/results-graphs/py-matplotlib-llm-light.mp4) in the Python Matplotlib node
 - Use LLMs to cerate [HTML reports](https://nis-express-help.laboratory-imaging.com/ref/nodes/results-graphs/#ai-assisted-template-generation)
+- [Removed nodes](./NIS_v7.01/05-Removed_nodes/) (Statistical Box, Load & Concatenate, Save/Load Last Color/Binary/Table)
 
 <a id="examples-for-nis-smart-experiment"></a>
 
@@ -52,9 +53,9 @@ The examples below are intended for use with datasets acquired with NIS Smart Ex
 
 ### Other examples
 
-- coming soon...
+- [Running Meta SAM in GA3](./NIS_v7.00/55-Python_SAM/)
 
-## Fixes and examples for NIS-Elements version 6.20 (current)
+## Fixes and examples for NIS-Elements version 6.20
 
 - [Fixing issues with Python](./NIS_v6.20/00-Fixing_Python_Issues/)
     - Required out-of-process Python version lowered to 3.10

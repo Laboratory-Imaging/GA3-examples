@@ -1,0 +1,16 @@
+channels:
+    - conda-forge
+dependencies:
+    - python=3.12.4
+    - pip
+    - pip:
+        - numpy
+        - torch==2.7.0
+        - torchvision
+        - "--extra-index-url=https://download.pytorch.org/whl/cu126"
+        - setuptools<81
+        - psutil
+        - triton-windows
+        - einops
+        - pycocotools
+        - huggingface_hub
