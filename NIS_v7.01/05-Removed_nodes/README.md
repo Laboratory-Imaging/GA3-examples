@@ -3,19 +3,24 @@
 ## Statistical Box (in Results & Graphs, Legacy Graphs)
 
 Legacy graphs were phased out in the previous versions and replaced by
-the new Interactive graphs. They have several shortcomings: old rendering,
+the new Interactive graphs. They had several shortcomings: old rendering,
 cannot be connected to Layout nodes, HTML Report and future nodes to come.
-Statistical Box was now removed as a last node from the Legacy Graphs group
-because it didn't have a dedicated replacement.
+The capabilities and versatility of the Python Matplotlib together with
+ever improving LLMs make it possible to remove the Statistical Box and use
+the Matplotlib node instead.
 
-The capabilities and versatility of the Matplotlib together availability
-made possible by LLM make it a perfect replacement.
-
-At the same time, Matplotlib integrates into GA3 workflows:
-unlike `StatisticalBox`, it can be connected to
+The Matplotlib integrates into GA3 workflows much better:
+it can be connected to
 [Layouts](https://nis-express-help.laboratory-imaging.com/ref/nodes/results-graphs/#layout),
-used in [HTML Report](https://nis-express-help.laboratory-imaging.com/ref/nodes/results-graphs/#czlimga3noderesultspyhtmldocumentv2) and
-[Result to Image](https://nis-express-help.laboratory-imaging.com/ref/nodes/results-graphs/#czlimga3noderesultspyhtmldocumentv2).
+used in [HTML Report](https://nis-express-help.laboratory-imaging.com/ref/nodes/results-graphs/#czlimga3noderesultspyhtmldocumentv2),
+[Result to Image](https://nis-express-help.laboratory-imaging.com/ref/nodes/results-graphs/#czlimga3noderesultspyhtmldocumentv2) and it
+looks better and is more capable.
+
+| Legacy Statistical Box  | MPL Statistical Box |
+|:---:|:---:|
+|<img src="images/LegacyStatisticalBox.png" width="800px"></img>|<img src="images/MPLStatisticalBox.png" height="400px"></img>|
+| Cannot be done using Legacy Statistical Box |<img src="images/MPLStatisticalBoxSeries.png" height="400px"></img>|
+
 
 For examples (with LLM prompts) see the Python workflows in the
 [documentation](https://nis-express-help.laboratory-imaging.com/workflows/python/#matplotlib-statistical-boxplots).
@@ -38,6 +43,12 @@ Following nodes
 were removed in favor of the
 [Python](https://nis-express-help.laboratory-imaging.com/ref/nodes/nd-processing-conversions/#czlimga3nodepygenericnode) node
 which is more capable, has better documentation and has LLM support.
+
+Specifically:
+- Python `numpy` nd-array library offers fast vectorized operations on images whereas JavaScript loops are very slow in comparison for any reasonable image processing.
+- Python scientific libraries (`pandas`, `scipy`, `scikit-image`, `scikit-learn`, ...) offer lot of functionality out of the box whereas using JavaScript nodes require implementing everything by the user.
+- Python itself and imaging libraries are well known, used and documented by the bio-imaging community.
+- LLMs 'know' how to use this ecosystem and can produce working code.
 
 ## Save/Load Last Color/Binary/Table (in Input & output, Temporary)
 
