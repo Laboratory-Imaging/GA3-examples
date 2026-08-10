@@ -6,6 +6,10 @@ Examples are organized into folders based on NIS Elements version which they wer
 >
 > All the examples for older versions should work in the newest versions.
 
+## NIS-Elements version 7.10 (coming soon)
+
+- [Python environments](./NIS_v7.10/50-Troubleshooting_pyenvs/): Installation and troubleshooting
+
 ## NIS-Elements version 7.01 and NIS-Express version 2.01 (current)
 
 There is a new [online documentation for NIS-Express](https://nis-express-help.laboratory-imaging.com).
@@ -43,6 +47,8 @@ it can be used for both softwares. Changes made in this release render some of p
 The examples below are intended for use with datasets acquired with NIS Smart Experiment - Custom Acquisition:
 
 - [How to import GA3 recipes](./NIS_v7.00/10-Import_GA3/)
+- [AI Classifier Information](./NIS_v7.00/10-AI_Classifiers/)
+    - [Brightfield 4x cells](./NIS_v7.00/10-4x_cells/)
 - Recipes similar to Nuclear Translocation
     - [Nuclear Translocation GA3 Recipe](./NIS_v7.00/40-Nuclear_Translocation/)
     - [Nuclear Translocation GA3 Recipe - Detailed Guide](./NIS_v7.00/40-Nuclear_Translocation_Detailed_Guide/)
