@@ -2,16 +2,35 @@
 
 ## Overview
 
-Python nodes support running the python code in an **external python process**. While many built-in python nodes such as
-[Cellpose](https://nis-express-help.laboratory-imaging.com/ref/nodes/segmentation/#czlimga3nodepycellpose4node),
-[Stardist](https://nis-express-help.laboratory-imaging.com/ref/nodes/segmentation/#czlimga3nodepystardist) or
-[InstanSeg](https://nis-express-help.laboratory-imaging.com/ref/nodes/segmentation/#czlimga3nodepyinstanseg) do so by default, the
-[Python](https://nis-express-help.laboratory-imaging.com/ref/nodes/nd-processing-conversions/#czlimga3nodepygenericnode) node
-can opt-in by selecting External or Managed environment as the [Python interpreter](https://nis-express-help.laboratory-imaging.com/ref/nodes/nd-processing-conversions/#python-interpreter).
+Python nodes support running the python code in an **external python process**.
 
-NIS uses the bundled **micromamba** executable to create managed Python environments from an `environment.yml` file.
-Micromamba installs the exact Python and package dependencies declared by the node without relying on a separately
-installed system Python. Its *root prefix* stores the package cache and micromamba state; each node environment has
+Python nodes like
+[Cellpose](https://nis-express-help.laboratory-imaging.com/ref/nodes/segmentation/#czlimga3nodepycellpose4node),
+[Stardist](https://nis-express-help.laboratory-imaging.com/ref/nodes/segmentation/#czlimga3nodepystardist),
+[InstanSeg](https://nis-express-help.laboratory-imaging.com/ref/nodes/segmentation/#czlimga3nodepyinstanseg) and optionally
+[Python](https://nis-express-help.laboratory-imaging.com/ref/nodes/nd-processing-conversions/#czlimga3nodepygenericnode) use separately installed
+python **environment** that bundle everything needed for the given task without affecting the system python nor the NIS built-in python.
+
+The environments are managed by NIS hence they are called **Managed environments**. Their definition can be saved within python node
+and recreated on different machine from the ga3 recipe alone. They are typically big - several gigabytes. Thats the why the environments are
+not installed automatically. They must be installed explicitly from the NIS GUI when a node complains that a given environment
+is not installed (GAExecutor installs it silently).
+
+![Cellpose SAM control dialog](images/Install-from-cellpose.png "Cellpose SAM control dialog")
+
+The built-in nodes have buttons to:
+
+- display the license of the main package,
+- install/reinstall button that triggers the micromamba installation as described below,
+- save the environment definition yaml and
+- open the folder with the environment (or the parent when not installed yet).
+
+Managed environments are analogous to the well known *conda environments* where "[mamba](https://github.com/mamba-org/mamba) is
+a reimplementation of the conda package manager in C++" that has a commercial friendly license.
+
+NIS uses the bundled **micromamba** executable to create managed Python environments from an `environment.yml` definition file.
+Micromamba installs the exact Python version and package dependencies declared by the node without touching system or NIS internal
+Python installation. Micromamba uses *root prefix* to store the package cache and it's own internal state; each node environment has
 its own *environment prefix*, which contains the actual interpreter and packages used by that node.
 
 ### Environment definition
@@ -35,7 +54,7 @@ It looks specifically for `pythonw.exe`.
 
 For this example, the NIS-Elements shared environment prefix is:
 ```
-C:\ProgramData\Laboratory Imaging\NIS-Elements\PythonEnvs\v7.10\System\NisCellpose4
+C:\ProgramData\Laboratory Imaging\NIS-Elements\PythonEnvs\vX.YY\System\NisCellpose4
 ```
 
 ### Environment prefix
@@ -47,23 +66,29 @@ The environment prefix is a folder where NIS expects to find the environment.
 
 | Application | Shared prefix for built-in nodes | Per-user prefix for the Python node |
 | --- | --- | --- |
-| NIS-Elements | `%PROGRAMDATA%\Laboratory Imaging\NIS-Elements\PythonEnvs\v7.10\System` | `%PROGRAMDATA%\Laboratory Imaging\NIS-Elements\PythonEnvs\v7.10\Users\%USERNAME%` |
+| NIS-Elements | `%PROGRAMDATA%\Laboratory Imaging\NIS-Elements\PythonEnvs\vX.YY\System` | `%PROGRAMDATA%\Laboratory Imaging\NIS-Elements\PythonEnvs\vX.YY\Users\%USERNAME%` |
 | NIS-Express (current-user installation) | `<executable folder>\PythonEnvs` | `<executable folder>\PythonEnvs` |
-| NIS-Express (all-users installation) | `%PROGRAMDATA%\Laboratory Imaging\NIS-Express\PythonEnvs\v7.10\System` | `%PROGRAMDATA%\Laboratory Imaging\NIS-Express\PythonEnvs\v7.10\Users\%USERNAME%` |
-| GA-Executor | `%PROGRAMDATA%\Laboratory Imaging\GA-Executor\PythonEnvs\v7.10\System` | `%PROGRAMDATA%\Laboratory Imaging\GA-Executor\PythonEnvs\v7.10\Users\%USERNAME%` |
+| NIS-Express (all-users installation) | `%PROGRAMDATA%\Laboratory Imaging\NIS-Express\PythonEnvs\vX.YY\System` | `%PROGRAMDATA%\Laboratory Imaging\NIS-Express\PythonEnvs\vX.YY\Users\%USERNAME%` |
+| GAExecutor | `%PROGRAMDATA%\Laboratory Imaging\GAExecutor\PythonEnvs\vX.YY\System` | `%PROGRAMDATA%\Laboratory Imaging\GAExecutor\PythonEnvs\vX.YY\Users\%USERNAME%` |
 
-NOTES
+NOTES:
 - the locations above can be pasted into the Windows file browser to reveal the contents of the folder
 - `%PROGRAMDATA%` is an environment variable typically pointing to `C:\ProgramData`
 - `%USERNAME%` is the current Windows user name
-- `v7.10` is derived from the NIS major/minor version and is formatted as `vX.YY`
+- `vX.YY` is derived from the NIS major/minor version and is formatted as `vX.YY`
 - NIS-Express (allusers) is an
 [installation of NIS-Express](https://nis-express-help.laboratory-imaging.com/docs/installation/) using `/ALLUSERS`
 
-For NIS-Elements, all-users NIS-Express, and GA-Executor, `LIM_PYTHON_ENVS_PREFIX` can replace only the
-`%PROGRAMDATA%\Laboratory Imaging` part of these paths. The product, `PythonEnvs`, version, and `System`/user
-subfolders are still appended (`System` for built-in nodes and `Users\%USERNAME%` for Generic Python-node
-environments). It does not apply to a current-user NIS-Express installation.
+
+> [!NOTE]
+>
+> The locations in the above table can be altered by defining the `LIM_PYTHON_ENVS_PREFIX` environment variable.
+>
+> It replaces the `%PROGRAMDATA%\Laboratory Imaging` part of these paths. The <product>, `PythonEnvs`, <version> and `System`/`Users`
+> subfolders are still appended. `System` is for built-in nodes and `Users\%USERNAME%` for Generic Python-node
+> environments.
+>
+> This is not available for NIS-Express current-user installation.
 
 ### Mamba root prefix
 
@@ -75,23 +100,26 @@ during installation.
 | NIS-Elements | `%PROGRAMDATA%\Laboratory Imaging\MambaRoot` |
 | NIS-Express (current-user installation) | `<executable folder>\MambaRoot` |
 | NIS-Express (allusers) | `%PROGRAMDATA%\Laboratory Imaging\MambaRoot` |
-| GA-Executor | `%PROGRAMDATA%\Laboratory Imaging\MambaRoot` |
+| GAExecutor | `%PROGRAMDATA%\Laboratory Imaging\MambaRoot` |
 
-For NIS-Elements, all-users NIS-Express, and GA-Executor, `LIM_MAMBA_ROOT` replaces the complete Mamba root path.
-It does not apply to a current-user NIS-Express installation.
+> [!NOTE]
+>
+> The locations can ba altered using `LIM_MAMBA_ROOT` that replaces the complete Mamba root path.
+>
+> This is not available for NIS-Express current-user installation.
 
-### Manual environment installation
+## Manual environment installation
 
 ```bat
-"C:\Program Files\NIS-Elements\micromamba.exe" --no-rc --root-prefix "<mamba_root_prefix>" create --prefix "<environment_prefix>" -f "<environment.yml>" -y
+"C:\Program Files\NIS-Elements\micromamba.exe" --no-rc --root-prefix "<mamba_root>" create --prefix "<environment_folder>" -f "<environment.yml>" -y
 ```
 
 Where:
-- **"<mamba_root_prefix>"** is to be replaced with actual folder according to the application (keep the quotes around the path),
-- **"<environment_prefix>"** is to be replaced with actual folder according to the application (keep the quotes around the path) and
+- **"<mamba_root_folder>"** is to be replaced with actual folder according to the application (keep the quotes around the path),
+- **"<environment_folder>"** is to be replaced with actual folder according to the application and followed by the environment name (keep the quotes around the path) and
 - **"<environment.yml>"** is to be replaced by the actual file containing the environment.
 
-## Troubleshooting
+## Troubleshooting environments
 
 When the environment is not working inside NIS python. Try if it is working by itself:
 1. Activate it,
@@ -162,7 +190,7 @@ To set an environment variable temporarily in a terminal session:
 ```bat
 SET "LIM_MAMBA_ROOT=D:\NIS-Python\MambaRoot"
 SET "LIM_PYTHON_ENVS_PREFIX=D:\NIS-Python"
-"C:\Program Files\NIS-Elements\micromamba.exe" --no-rc --root-prefix "%LIM_MAMBA_ROOT%" create --prefix "%LIM_PYTHON_ENVS_PREFIX%\NIS-Elements\PythonEnvs\v7.10\System\NisCellpose4" -f environment.yml -y
+"C:\Program Files\NIS-Elements\micromamba.exe" --no-rc --root-prefix "%LIM_MAMBA_ROOT%" create --prefix "%LIM_PYTHON_ENVS_PREFIX%\NIS-Elements\PythonEnvs\vX.YY\System\NisCellpose4" -f environment.yml -y
 ```
 
 `LIM_PYTHON_ENVS_PREFIX` is a prefix override, not a full environment-prefix override. `LIM_MAMBA_ROOT` is a full
