@@ -47,8 +47,11 @@ it can be used for both softwares. Changes made in this release render some of p
 The examples below are intended for use with datasets acquired with NIS Smart Experiment - Custom Acquisition:
 
 - [How to import GA3 recipes](./NIS_v7.00/10-Import_GA3/)
-- [AI Classifier Information](./NIS_v7.00/10-AI_Classifiers/)
+- [AI Classifiers](./NIS_v7.00/10-AI_Classifiers/)
     - [Brightfield 4x cells](./NIS_v7.00/10-4x_cells/)
+- Confluency Recipes
+    - [Confluency and Morphology GA3 Recipe](./NIS_v7.00/20-Confluence_Morphology/)
+    - [Confluency and Coverage Uniformity GA3 Recipe](./NIS_v7.00/20-Confluence_Coverage_Uniformity/)
 - Recipes similar to Nuclear Translocation
     - [Nuclear Translocation GA3 Recipe](./NIS_v7.00/40-Nuclear_Translocation/)
     - [Nuclear Translocation GA3 Recipe - Detailed Guide](./NIS_v7.00/40-Nuclear_Translocation_Detailed_Guide/)

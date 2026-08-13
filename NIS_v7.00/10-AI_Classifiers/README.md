@@ -29,5 +29,6 @@
 - Imaging modality: **Brightfield**
 - Objective: **4×** 
 - Condenser Aperture: **Opened (NA 0.09)**
-- For more information, click  [here](../10-4x_cells/)
 - AI classifier for cell detection
+- [Download AI Classifier file](https://lim-public-af010c85-0d3e-4156-9378-5adc1bbef7b3.s3.eu-central-1.amazonaws.com/GitHubAssets/GA3_Examples/NIS_v7.00/10-AI_Classifiers/4x_cells_brf.oai)
+- For more information, click  [here](../10-4x_cells/)

@@ -1,6 +1,6 @@
 # Cell Segmentation on Brightfield Images – 4× Objective
 
-The pretrained **4x_cells.oai** brightfield segmentation model was trained on **HeLa cells**. This guide shows which cell lines and applications the model can be used for.
+The pretrained **4x_cells.oai** brightfield segmentation model was trained on **HeLa cells** in a 96-well plate. This guide shows which cell lines and applications the model can be used for.
 
 ## Image Acquisition Conditions
 
@@ -33,5 +33,6 @@ This AI classifier was evaluated for:
 
 - **Confluence / Coverage** – compatible with **HeLa, CHO-K1, A431, Neuro-2a, COS, and HepG2**.
 - **Cell Count and Single-cell Morphology** – compatible with **HeLa and CHO-K1**. Occasional merging of closely contacting CHO-K1 cells may affect cell count and morphology measurements of the affected objects.
-- **Image quality** – segmentation performance may be affected by imaging artifacts or structures with image characteristics similar to cells.
+- **Image quality** – low or uneven contrast, imaging artifacts, or other structures similar to cells may affect segmentation.
+- **Local Contrast** – may improve segmentation in images with low or uneven contrast
 - **Other cell lines or acquisition conditions** – performance has not been evaluated and should be verified before quantitative use.
